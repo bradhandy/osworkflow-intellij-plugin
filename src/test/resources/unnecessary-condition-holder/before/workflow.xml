@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE workflow PUBLIC "-//OpenSymphony Group//DTD OSWorkflow 2.6//EN" "http://www.opensymphony.com/osworkflow/workflow_2_8.dtd">
+<workflow>
+    <initial-actions>
+        <action id="0" name="Start Workflow">
+            <pre-functions>
+                <function type="class">
+                    <arg name="class.name">com.opensymphony.workflow.util.Caller</arg>
+                </function>
+            </pre-functions>
+            <results>
+                <result old-status="Finished" status="Pending" step="1" owner="${caller}">
+                    <conditions type="AND">
+                        <<weak_warning descr="Unnecessary conditions tag."><caret>conditions</weak_warning> type="AND">
+                            <condition type="class">
+                                <arg name="class.name">com.opensymphony.workflow.StatusCondition</arg>
+                            </condition>
+                        </conditions>
+                    </conditions>
+                </result>
+                <unconditional-result old-status="Finished" status="Pending" step="1" owner="${caller}" />
+            </results>
+        </action>
+    </initial-actions>
+    <steps>
+        <step id="1" name="Some Step">
+            <actions>
+                <action id="1" name="Some Action" auto="true">
+                    <restrict-to>
+                        <conditions type="AND">
+                            <<weak_warning descr="Unnecessary conditions tag.">conditions</weak_warning> type="AND">
+                                <condition type="class">
+                                    <arg name="class.name">com.opensymphony.workflow.util.StatusCondition</arg>
+                                </condition>
+                                <condition type="spring">
+                                    <arg name="bean.name">workflowShouldProceedCondition</arg>
+                                </condition>
+                            </conditions>
+                        </conditions>
+                    </restrict-to>
+                    <pre-functions>
+                        <function type="class">
+                            <arg name="class.name">com.someorg.functions.SomeFunction</arg>
+                        </function>
+                    </pre-functions>
+                </action>
+            </actions>
+        </step>
+    </steps>
+</workflow>

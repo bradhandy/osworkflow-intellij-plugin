@@ -1,5 +1,6 @@
 package net.jackofalltrades.workflow.model.inspection;
 
+import com.intellij.codeHighlighting.HighlightDisplayLevel;
 import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.util.xml.DomElement;
 import com.intellij.util.xml.DomElementVisitor;
@@ -45,6 +46,12 @@ public class UnnecessaryConditionHolderInspection extends DomElementsInspection<
         return "UnnecessaryConditions";
     }
 
+    @NotNull
+    @Override
+    public HighlightDisplayLevel getDefaultLevel() {
+        return HighlightDisplayLevel.WEAK_WARNING;
+    }
+
     @Override
     protected void checkDomElement(DomElement element, DomElementAnnotationHolder holder, DomHighlightingHelper helper) {
         final Visitor visitor = new Visitor(holder);
@@ -70,9 +77,8 @@ public class UnnecessaryConditionHolderInspection extends DomElementsInspection<
         public void visitConditionHolder(ConditionHolder conditionHolder) {
             ConditionHolder parent = DomUtil.getParentOfType(conditionHolder, ConditionHolder.class, true);
             ConditionHolder grandParent = DomUtil.getParentOfType(parent, ConditionHolder.class, true);
-            if (parent != null && (grandParent == null || parent.getConditions().size() > 1)
-                    && conditionHolder.getConditions().size() == 1) {
-                _annotationHolder.createProblem(conditionHolder, HighlightSeverity.INFORMATION,
+            if (parent != null && (grandParent == null || parent.getConditions().size() > 1)) {
+                _annotationHolder.createProblem(conditionHolder, HighlightSeverity.WEAK_WARNING,
                         "Unnecessary conditions tag.", new CollapseConditionHoldersQuickFix());
             }
         }
