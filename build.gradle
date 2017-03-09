@@ -29,6 +29,7 @@ intellij {
     ]
     patchPluginXml {
         version pluginVersion
+        sinceBuild earliestSupportedVersion
     }
     buildPlugin {
         baseName 'OSWorkflow'

@@ -18,6 +18,7 @@
                 <li> Support for IntelliJ 2017.1 </li>
                 <li> Fixed an issue where a references to classes in functions of type &quot;class&quot;
                         were not soft. </li>
+                <li> Fixed issue with the Unnecessary Condition Holder inspection. </li>
             </ul>
             <li> Version 3.0.1 </li>
             <ul>
