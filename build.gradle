@@ -1,5 +1,5 @@
 plugins {
-    id 'org.jetbrains.intellij' version '0.2.0'
+    id 'org.jetbrains.intellij' version '0.2.5'
 }
 
 group 'net.jackofalltrades'
@@ -21,7 +21,7 @@ dependencies {
 intellij {
     version intellijVersion
     type intellijType
-    pluginName 'Dynamic Interview'
+    pluginName 'OS Workflow Support'
     plugins = [
             'Spring',
             'java-i18n',  // java-i18n is required by the Spring plugin.  not used directly by the plugin.
