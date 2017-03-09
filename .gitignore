@@ -1,0 +1,5 @@
+# Ignore the IntelliJ project directory (.idea), the gradle wrapper cache directory (.gradle),
+# and the build results from running gradle.
+/.gradle
+/.idea
+/build

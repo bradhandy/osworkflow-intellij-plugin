@@ -1,0 +1,5 @@
+<idea-plugin version="2">
+    <extensions defaultExtensionNs="net.jackofalltrades.workflow">
+        <valueConverter implementation="net.jackofalltrades.spring.SpringBeanConverterProvider" />
+    </extensions>
+</idea-plugin>

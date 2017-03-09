@@ -1,0 +1,11 @@
+<html>
+    <body>
+    Unhandled exceptions in post-functions could cause inconsistent workflow state.
+    <!-- tooltip end -->
+    When processing a workflow, the order of execution is action>pre-functions, result>pre-functions,
+    transition to next step, result>post-functions, action>post-functions.  An unhandled exception in a post-functions
+    will cause the workflow to transition to the next step and skip any remaining post-functions.
+
+    This can cause inconsistent workflow state and leave possibly critical business logic unexecuted.
+    </body>
+</html>

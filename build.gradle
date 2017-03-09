@@ -1,0 +1,36 @@
+plugins {
+    id 'org.jetbrains.intellij' version '0.2.0'
+}
+
+group 'net.jackofalltrades'
+version pluginVersion
+
+apply plugin: 'java'
+apply plugin: 'org.jetbrains.intellij'
+
+sourceCompatibility = javaVersion
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+intellij {
+    version intellijVersion
+    type intellijType
+    pluginName 'Dynamic Interview'
+    plugins = [
+            'Spring',
+            'java-i18n',  // java-i18n is required by the Spring plugin.  not used directly by the plugin.
+            'properties'  // properties is required by the java-i18n plugin.  not used directly by the plugin.
+    ]
+    patchPluginXml {
+        version pluginVersion
+    }
+    buildPlugin {
+        baseName 'OSWorkflow'
+    }
+}
