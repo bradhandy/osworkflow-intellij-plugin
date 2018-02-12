@@ -13,6 +13,10 @@
     <change-notes>
         <![CDATA[
         <ul>
+            <li> Version 3.3 </li>
+            <ul>
+                <li> Support for IntelliJ 2018.1 EAP </li>
+            </ul>
             <li> Version 3.2 </li>
             <ul>
                 <li> Support for IntelliJ 2017.3 </li>
