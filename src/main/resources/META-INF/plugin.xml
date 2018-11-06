@@ -1,4 +1,4 @@
-<idea-plugin version="2">
+<idea-plugin>
     <id>net.jackofalltrades.workflow</id>
     <name>OS Workflow Support</name>
     <version></version>
@@ -13,6 +13,10 @@
     <change-notes>
         <![CDATA[
         <ul>
+            <li> Version 3.5 </li>
+            <ul>
+                <li> Support for IntelliJ 2018.3 </li>
+            </ul>
             <li> Version 3.4 </li>
             <ul>
                 <li> Support for IntelliJ 2018.2 </li>
