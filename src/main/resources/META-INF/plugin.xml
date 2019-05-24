@@ -13,6 +13,10 @@
     <change-notes>
         <![CDATA[
         <ul>
+            <li> Version 3.6 </li>
+            <ul>
+                <li> Support for IntelliJ 2019.1 </li>
+            </ul>
             <li> Version 3.5 </li>
             <ul>
                 <li> Support for IntelliJ 2018.3 </li>
