@@ -1,18 +1,23 @@
 <idea-plugin>
-    <id>net.jackofalltrades.workflow</id>
-    <name>OS Workflow Support</name>
-    <version></version>
-    <vendor email="brad.handy@gmail.com" url="https://bitbucket.org/bhandy/os-workflow-intellij-plugin">
-        Brad Handy
-    </vendor>
+  <id>net.jackofalltrades.workflow</id>
+  <name>OS Workflow Support</name>
+  <version></version>
+  <vendor email="brad.handy@gmail.com"
+      url="https://bitbucket.org/bhandy/os-workflow-intellij-plugin">
+    Brad Handy
+  </vendor>
 
-    <idea-version since-build="" until-build="" />
+  <idea-version since-build="" until-build="" />
 
-    <description><![CDATA[ Support for working with OS Workflow configuration files. ]]></description>
+  <description><![CDATA[ Support for working with OS Workflow configuration files. ]]></description>
 
-    <change-notes>
-        <![CDATA[
+  <change-notes>
+    <![CDATA[
         <ul>
+            <li> Version 3.7 </li>
+            <ul>
+                <li> Support for Intellij 2020.1 </li>
+            </ul>
             <li> Version 3.6 </li>
             <ul>
                 <li> Support for IntelliJ 2019.1 </li>
@@ -29,125 +34,75 @@
             <ul>
                 <li> Support for IntelliJ 2018.1 EAP </li>
             </ul>
-            <li> Version 3.2 </li>
-            <ul>
-                <li> Support for IntelliJ 2017.3 </li>
-            </ul>
-            <li> Version 3.1.1 </li>
-            <ul>
-                <li> Support for IntelliJ 2017.2 </li>
-            </ul>
-            <li> Version 3.1 </li>
-            <ul>
-                <li> Support for IntelliJ 2017.1 </li>
-                <li> Fixed an issue where a references to classes in functions of type &quot;class&quot;
-                        were not soft. </li>
-                <li> Fixed issue with the Unnecessary Condition Holder inspection. </li>
-            </ul>
-            <li> Version 3.0.1 </li>
-            <ul>
-                <li> Support for Intellij 2016.3 </li>
-                <li> Skipped IntelliJ 2016 - 2016.2 </li>
-            </ul>
-            <li> Version 3.0.0 </li>
-            <ul>
-                <li> Support for IntelliJ 15. </li>
-                <li> Fixed an issue with the Unused Step inspection where steps with a single reference were identified
-                        as unused. </li>
-            </ul>
-            <li> Version 2.0.0 </li>
-            <ul>
-                <li> Support for IntelliJ 14. </li>
-            </ul>
-            <li> Version 1.1.2 </li>
-            <ul>
-                <li> Made the 1.x line only available for IntelliJ 12. </li>
-            </ul>
-            <li> Version 1.1.1 </li>
-            <ul>
-                <li>
-                    Packaged the missing spring-integration.xml file which prevented Spring integration from
-                    functioning.
-                </li>
-            </ul>
-            <li> Version 1.1 </li>
-            <ul>
-                <li> Added optional support for the Spring module to support resolution of Spring beans referenced from
-                        the &quot;bean.name&quot; argument of a &quot;condition&quot; or &quot;function&quot;. </li>
-                <li> Fixed an issue where the &quot;common-action&quot; element reference would not resolve to the
-                        correct common-action definition under &quot;common-actions&quot;.
-                <li> Some bug fixes in the structure of backing model. </li>
-            </ul>
-            <li> Version 1.0 </li>
-            <ul>
-                <li> Provides a Structure View for the workflow starting with the initial actions. </li>
-                <li> Provides code completion suggestions based on step ids or step names. </li>
-                <li> Provides code completion suggestions for class.name arguments to &quot;condition&quot; and
-                        &quot;function&quot; elements.  The classes suggested implement the appropriate interface. </li>
-                <li> Identifies unused workflow steps. </li>
-                <li> Identifies use of post-functions which could cause problems with the step transition is executed
-                        on a separate database connection/transaction as your function code. </li>
-                <ul>
-                    <li> Provides a quick fix for result/post-functions and unconditional-result/post-functions to make
-                            them pre-functions. </li>
-                </ul>
-                <li> Provides an inspection to identify unnecessary "conditions" tags and a quick fix to merge their
-                        contents into the parents.  The root "conditions" tag is not considered. </li>
-                <li> Provides an extension point for adding custom value/reference converters to handle custom value
-                        types.  See the IntelliJ Community Edition site for learning how to write plugins. </li>
-            </ul>
         </ul>
         ]]>
-    </change-notes>
+  </change-notes>
 
-    <depends>com.intellij.modules.platform</depends>
-    <depends>com.intellij.modules.xml</depends>
+  <depends>com.intellij.modules.platform</depends>
+  <depends>com.intellij.modules.xml</depends>
+  <depends>com.intellij.modules.java</depends>
 
-    <!-- optionally depends on the Spring plugin for the Spring API. -->
-    <depends optional="true" config-file="spring-integration.xml">com.intellij.spring</depends>
+  <!-- optionally depends on the Spring plugin for the Spring API. -->
+  <depends optional="true" config-file="spring-integration.xml">com.intellij.spring</depends>
 
-    <extensionPoints>
+  <extensionPoints>
 
-        <!--
-          defines an extension point usable by this plugin, or others, to provide custom value converters for
-          resolving the values of "arg" and "meta" tags.  This is useful for resolving Spring beans, or other constructs
-          in code which could be passed as a String identified reference.
-          -->
-        <extensionPoint interface="com.intellij.util.xml.converters.values.GenericDomValueConvertersRegistry$Provider" name="valueConverter" />
+    <!--
+      defines an extension point usable by this plugin, or others, to provide custom value converters for
+      resolving the values of "arg" and "meta" tags.  This is useful for resolving Spring beans, or other constructs
+      in code which could be passed as a String identified reference.
+      -->
+    <extensionPoint
+        interface="com.intellij.util.xml.converters.values.GenericDomValueConvertersRegistry$Provider"
+        name="valueConverter" />
 
-    </extensionPoints>
+  </extensionPoints>
 
-    <extensions defaultExtensionNs="com.intellij">
+  <extensions defaultExtensionNs="com.intellij">
 
-        <!-- defines a service to handle the valueConverter extension point. -->
-        <applicationService serviceImplementation="net.jackofalltrades.workflow.model.converter.WorkflowValueConverterRegistry" />
+    <!-- defines a service to handle the valueConverter extension point. -->
+    <applicationService
+        serviceImplementation="net.jackofalltrades.workflow.model.converter.WorkflowValueConverterRegistry" />
 
-        <!-- handles the new structure view for the OS Workflow files. -->
-        <xmlStructureViewBuilderProvider implementation="net.jackofalltrades.workflow.model.structure.WorkflowStructureViewBuilderProvider"
-            order="first" />
+    <!-- handles the new structure view for the OS Workflow files. -->
+    <xmlStructureViewBuilderProvider
+        implementation="net.jackofalltrades.workflow.model.structure.WorkflowStructureViewBuilderProvider"
+        order="first" />
 
-        <!-- inspections for the OS Workflow configuration files. -->
-        <inspectionToolProvider implementation="net.jackofalltrades.workflow.model.inspection.WorkflowInspectionToolProvider" />
+    <!-- inspections for the OS Workflow configuration files. -->
+    <inspectionToolProvider
+        implementation="net.jackofalltrades.workflow.model.inspection.WorkflowInspectionToolProvider" />
+    <localInspection shortName="UnnecessaryConditions" groupName="OS Workflow"
+        displayName="Unnecessary conditions elements"
+        implementationClass="net.jackofalltrades.workflow.model.inspection.UnnecessaryConditionHolderInspection" />
+    <localInspection shortName="UnusedStep" groupName="OS Workflow"
+        displayName="Unused Step"
+        implementationClass="net.jackofalltrades.workflow.model.inspection.UnusedStepInspection" />
+    <localInspection shortName="UseOfPostFunctions" groupName="OS Workflow"
+        displayName="Inconsistent workflow state"
+        implementationClass="net.jackofalltrades.workflow.model.inspection.UseOfPostFunctionsInspection" />
 
-        <!-- configuration for parsing the OS Workflow files using the DOM framework. -->
-        <elementDescriptionProvider implementation="net.jackofalltrades.workflow.model.presentation.WorkflowElementDescriptionProvider" />
-        <dom.fileDescription implementation="net.jackofalltrades.workflow.model.xml.WorkflowDomFileDescription" />
-        <dom.implementation interfaceClass="net.jackofalltrades.workflow.model.xml.FunctionProvider"
-            implementationClass="net.jackofalltrades.workflow.model.impl.xml.FunctionProviderImpl" />
-        <dom.implementation interfaceClass="net.jackofalltrades.workflow.model.xml.SingleCondition"
-            implementationClass="net.jackofalltrades.workflow.model.impl.xml.SingleConditionImpl" />
-        <dom.implementation interfaceClass="net.jackofalltrades.workflow.model.xml.Action"
-            implementationClass="net.jackofalltrades.workflow.model.impl.xml.ActionImpl" />
-        <dom.implementation interfaceClass="net.jackofalltrades.workflow.model.xml.ConditionalResult"
-            implementationClass="net.jackofalltrades.workflow.model.impl.xml.ConditionalResultImpl" />
-        <dom.implementation interfaceClass="net.jackofalltrades.workflow.model.xml.ConditionHolder"
-            implementationClass="net.jackofalltrades.workflow.model.impl.xml.ConditionHolderImpl" />
-        <dom.implementation interfaceClass="net.jackofalltrades.workflow.model.xml.Result"
-            implementationClass="net.jackofalltrades.workflow.model.impl.xml.ResultImpl" />
-        <dom.implementation interfaceClass="net.jackofalltrades.workflow.model.xml.Step"
-            implementationClass="net.jackofalltrades.workflow.model.impl.xml.StepImpl" />
-        <dom.implementation interfaceClass="net.jackofalltrades.workflow.model.xml.WorkflowValue"
-            implementationClass="net.jackofalltrades.workflow.model.impl.xml.WorkflowValueImpl" />
+    <!-- configuration for parsing the OS Workflow files using the DOM framework. -->
+    <elementDescriptionProvider
+        implementation="net.jackofalltrades.workflow.model.presentation.WorkflowElementDescriptionProvider" />
+    <dom.fileDescription
+        implementation="net.jackofalltrades.workflow.model.xml.WorkflowDomFileDescription" />
+    <dom.implementation interfaceClass="net.jackofalltrades.workflow.model.xml.FunctionProvider"
+        implementationClass="net.jackofalltrades.workflow.model.impl.xml.FunctionProviderImpl" />
+    <dom.implementation interfaceClass="net.jackofalltrades.workflow.model.xml.SingleCondition"
+        implementationClass="net.jackofalltrades.workflow.model.impl.xml.SingleConditionImpl" />
+    <dom.implementation interfaceClass="net.jackofalltrades.workflow.model.xml.Action"
+        implementationClass="net.jackofalltrades.workflow.model.impl.xml.ActionImpl" />
+    <dom.implementation interfaceClass="net.jackofalltrades.workflow.model.xml.ConditionalResult"
+        implementationClass="net.jackofalltrades.workflow.model.impl.xml.ConditionalResultImpl" />
+    <dom.implementation interfaceClass="net.jackofalltrades.workflow.model.xml.ConditionHolder"
+        implementationClass="net.jackofalltrades.workflow.model.impl.xml.ConditionHolderImpl" />
+    <dom.implementation interfaceClass="net.jackofalltrades.workflow.model.xml.Result"
+        implementationClass="net.jackofalltrades.workflow.model.impl.xml.ResultImpl" />
+    <dom.implementation interfaceClass="net.jackofalltrades.workflow.model.xml.Step"
+        implementationClass="net.jackofalltrades.workflow.model.impl.xml.StepImpl" />
+    <dom.implementation interfaceClass="net.jackofalltrades.workflow.model.xml.WorkflowValue"
+        implementationClass="net.jackofalltrades.workflow.model.impl.xml.WorkflowValueImpl" />
 
-    </extensions>
+  </extensions>
 </idea-plugin>

@@ -11,7 +11,7 @@
             <results>
                 <result old-status="Finished" status="Pending" step="1" owner="${caller}">
                     <conditions type="AND">
-                        <<weak_warning descr="Unnecessary conditions tag."><caret>conditions</weak_warning> type="AND">
+                        <conditions type="AND">
                             <condition type="class">
                                 <arg name="class.name">com.opensymphony.workflow.StatusCondition</arg>
                             </condition>
@@ -28,7 +28,7 @@
                 <action id="1" name="Some Action" auto="true">
                     <restrict-to>
                         <conditions type="AND">
-                            <<weak_warning descr="Unnecessary conditions tag.">conditions</weak_warning> type="AND">
+                            <conditions type="AND">
                                 <condition type="class">
                                     <arg name="class.name">com.opensymphony.workflow.util.StatusCondition</arg>
                                 </condition>

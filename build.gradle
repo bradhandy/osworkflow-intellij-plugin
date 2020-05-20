@@ -1,5 +1,5 @@
 plugins {
-    id 'org.jetbrains.intellij' version '0.3.12'
+    id 'org.jetbrains.intellij' version '0.4.21'
 }
 
 group 'net.jackofalltrades'
@@ -23,6 +23,7 @@ intellij {
     type intellijType
     pluginName 'OS Workflow Support'
     plugins = [
+            'java',
             'Spring',
             'java-i18n',  // java-i18n is required by the Spring plugin.  not used directly by the plugin.
             'properties'  // properties is required by the java-i18n plugin.  not used directly by the plugin.
