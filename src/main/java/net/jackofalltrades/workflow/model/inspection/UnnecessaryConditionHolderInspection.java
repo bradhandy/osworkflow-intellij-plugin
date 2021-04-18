@@ -22,68 +22,66 @@ import org.jetbrains.annotations.NotNull;
  */
 public class UnnecessaryConditionHolderInspection extends DomElementsInspection<Workflow> {
 
-    public UnnecessaryConditionHolderInspection() {
-        super(Workflow.class);
-    }
+  public UnnecessaryConditionHolderInspection() {
+    super(Workflow.class);
+  }
 
-    @Nls
-    @NotNull
-    @Override
-    public String getGroupDisplayName() {
-        return "OS Workflow";
-    }
+  @Nls
+  @NotNull
+  @Override
+  public String getGroupDisplayName() {
+    return "OS Workflow";
+  }
 
-    @Nls
-    @NotNull
-    @Override
-    public String getDisplayName() {
-        return "Unnecessary conditions elements";
-    }
+  @Nls
+  @NotNull
+  @Override
+  public String getDisplayName() {
+    return "Unnecessary conditions elements";
+  }
 
-    @NotNull
-    @Override
-    public String getShortName() {
-        return "UnnecessaryConditions";
-    }
+  @NotNull
+  @Override
+  public String getShortName() {
+    return "UnnecessaryConditions";
+  }
 
-    @NotNull
-    @Override
-    public HighlightDisplayLevel getDefaultLevel() {
-        return HighlightDisplayLevel.WEAK_WARNING;
-    }
+  @NotNull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.WEAK_WARNING;
+  }
 
-    @Override
-    protected void checkDomElement(DomElement element, DomElementAnnotationHolder holder, DomHighlightingHelper helper) {
-        final Visitor visitor = new Visitor(holder);
-        element.accept(new DomElementVisitor() {
-            @Override
-            public void visitDomElement(DomElement element) {
-                if (element instanceof WorkflowElement) {
-                    ((WorkflowElement) element).accept(visitor);
-                }
-            }
-        });
-    }
-
-    private static class Visitor extends WorkflowElement.Visitor {
-
-        private DomElementAnnotationHolder _annotationHolder;
-
-        private Visitor(DomElementAnnotationHolder annotationHolder) {
-            _annotationHolder = annotationHolder;
+  @Override
+  protected void checkDomElement(DomElement element, DomElementAnnotationHolder holder, DomHighlightingHelper helper) {
+    final Visitor visitor = new Visitor(holder);
+    element.accept(new DomElementVisitor() {
+      @Override
+      public void visitDomElement(DomElement element) {
+        if (element instanceof WorkflowElement) {
+          ((WorkflowElement) element).accept(visitor);
         }
+      }
+    });
+  }
 
-        @Override
-        public void visitConditionHolder(ConditionHolder conditionHolder) {
-            ConditionHolder parent = DomUtil.getParentOfType(conditionHolder, ConditionHolder.class, true);
-            ConditionHolder grandParent = DomUtil.getParentOfType(parent, ConditionHolder.class, true);
-            if (parent != null && (grandParent == null || parent.getConditions().size() > 1)) {
-                _annotationHolder.createProblem(conditionHolder, HighlightSeverity.WEAK_WARNING,
-                        "Unnecessary conditions tag.", new CollapseConditionHoldersQuickFix());
-            }
-        }
+  private static class Visitor extends WorkflowElement.Visitor {
 
+    private DomElementAnnotationHolder _annotationHolder;
+
+    private Visitor(DomElementAnnotationHolder annotationHolder) {
+      _annotationHolder = annotationHolder;
     }
+
+    @Override
+    public void visitConditionHolder(ConditionHolder conditionHolder) {
+      ConditionHolder parent = DomUtil.getParentOfType(conditionHolder, ConditionHolder.class, true);
+      if (parent != null && parent.getConditions().size() == 1) {
+          _annotationHolder.createProblem(conditionHolder, HighlightSeverity.WEAK_WARNING,
+              "Unnecessary conditions tag.", new CollapseConditionHoldersQuickFix());
+      }
+    }
+  }
 
 
 }

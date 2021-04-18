@@ -1,5 +1,5 @@
 plugins {
-    id 'org.jetbrains.intellij' version '0.4.21'
+    id 'org.jetbrains.intellij' version '0.7.2'
 }
 
 group 'net.jackofalltrades'
@@ -9,13 +9,14 @@ apply plugin: 'java'
 apply plugin: 'org.jetbrains.intellij'
 
 sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testImplementation group: 'junit', name: 'junit', version: '4.13.1'
 }
 
 intellij {

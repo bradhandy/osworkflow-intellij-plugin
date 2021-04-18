@@ -1,8 +1,8 @@
 package net.jackofalltrades.workflow;
 
-import net.jackofalltrades.BaseLightCodeInsightFixtureTest;
+import net.jackofalltrades.BaseLightJavaCodeInsightFixtureTest;
 
-public class BasicHighlightingTest extends BaseLightCodeInsightFixtureTest {
+public class BasicHighlightingTest extends BaseLightJavaCodeInsightFixtureTest {
 
     public void testMissingFunctionProviderClassReferenceIsSoft() {
         myFixture.copyDirectoryToProject("parsing", "");

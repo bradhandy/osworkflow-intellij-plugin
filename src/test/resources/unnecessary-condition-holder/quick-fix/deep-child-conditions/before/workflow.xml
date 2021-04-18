@@ -11,11 +11,7 @@
             <results>
                 <result old-status="Finished" status="Pending" step="1" owner="${caller}">
                     <conditions type="AND">
-                        <conditions type="AND">
-                            <condition type="class">
-                                <arg name="class.name">com.opensymphony.workflow.StatusCondition</arg>
-                            </condition>
-                        </conditions>
+                        <condition type="class"><arg name="class.name">com.opensymphony.workflow.StatusCondition</arg></condition>
                     </conditions>
                 </result>
                 <unconditional-result old-status="Finished" status="Pending" step="1" owner="${caller}" />
@@ -28,13 +24,18 @@
                 <action id="1" name="Some Action" auto="true">
                     <restrict-to>
                         <conditions type="AND">
+                            <condition type="class">
+                                <arg name="class.name">com.somepackage.SomeConditionClass</arg>
+                            </condition>
                             <conditions type="AND">
-                                <condition type="class">
-                                    <arg name="class.name">com.opensymphony.workflow.util.StatusCondition</arg>
-                                </condition>
-                                <condition type="spring">
-                                    <arg name="bean.name">workflowShouldProceedCondition</arg>
-                                </condition>
+                                <<warning descr="Unnecessary conditions tag.">conditions</warning> type="AND">
+                                    <condition type="class">
+                                        <arg name="class.name">com.opensymphony.workflow.util.StatusCondition</arg>
+                                    </condition>
+                                    <condition type="spring">
+                                        <arg name="bean.name">workflowShouldProceedCondition</arg>
+                                    </condition>
+                                </conditions>
                             </conditions>
                         </conditions>
                     </restrict-to>

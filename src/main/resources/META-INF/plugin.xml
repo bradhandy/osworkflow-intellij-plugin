@@ -3,7 +3,7 @@
   <name>OS Workflow Support</name>
   <version></version>
   <vendor email="brad.handy@gmail.com"
-      url="https://bitbucket.org/bhandy/os-workflow-intellij-plugin">
+      url="https://github.com/bradhandy/osworkflow-intellij-plugin">
     Brad Handy
   </vendor>
 
@@ -14,6 +14,10 @@
   <change-notes>
     <![CDATA[
         <ul>
+            <li> Version 3.8 </li>
+            <ul>
+                <li> Support for Intellij 2021.1 </li>
+            </ul>
             <li> Version 3.7 </li>
             <ul>
                 <li> Support for Intellij 2020.1 </li>
@@ -85,8 +89,9 @@
     <!-- configuration for parsing the OS Workflow files using the DOM framework. -->
     <elementDescriptionProvider
         implementation="net.jackofalltrades.workflow.model.presentation.WorkflowElementDescriptionProvider" />
-    <dom.fileDescription
-        implementation="net.jackofalltrades.workflow.model.xml.WorkflowDomFileDescription" />
+    <dom.fileMetaData
+        implementation="net.jackofalltrades.workflow.model.xml.WorkflowDomFileDescription"
+        rootTagName="workflow" />
     <dom.implementation interfaceClass="net.jackofalltrades.workflow.model.xml.FunctionProvider"
         implementationClass="net.jackofalltrades.workflow.model.impl.xml.FunctionProviderImpl" />
     <dom.implementation interfaceClass="net.jackofalltrades.workflow.model.xml.SingleCondition"

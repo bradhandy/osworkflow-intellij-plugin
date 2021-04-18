@@ -27,72 +27,74 @@ import org.jetbrains.annotations.Nullable;
  */
 public class WorkflowValueConverterRegistry {
 
-    private static final ExtensionPointName<GenericDomValueConvertersRegistry.Provider> VALUE_CONVERTERS_EXTENSION
-            = ExtensionPointName.create("net.jackofalltrades.workflow.valueConverter");
+  private static final ExtensionPointName<GenericDomValueConvertersRegistry.Provider> VALUE_CONVERTERS_EXTENSION
+      = ExtensionPointName.create("net.jackofalltrades.workflow.valueConverter");
 
-    private static final Condition<Pair<PsiType, GenericDomValue>> CLASS_NAME_ARGUMENT_CONDITION =
-            new Condition<Pair<PsiType, GenericDomValue>>() {
-                @Override
-                public boolean value(Pair<PsiType, GenericDomValue> pair) {
-                    if (pair.getSecond() instanceof WorkflowValue) {
-                        WorkflowValue value = (WorkflowValue) pair.getSecond();
-                        return "arg".equals(value.getXmlTag().getName())
-                                && "class.name".equals(value.getName().getStringValue());
-                    }
-
-                    return false;
-                }
-            };
-
-    private GenericDomValueConvertersRegistry _registry;
-
-    public static WorkflowValueConverterRegistry getInstance() {
-        return ServiceManager.getService(WorkflowValueConverterRegistry.class);
-    }
-
-    public WorkflowValueConverterRegistry() {
-        _registry = new GenericDomValueConvertersRegistry();
-
-        initConverters();
-    }
-
-    public Converter<?> getConverter(GenericDomValue domValue) {
-        return _registry.getConverter(domValue, null);
-    }
-
-    private void initConverters() {
-        _registry.registerConverter(new CustomPsiClassConverter(), CLASS_NAME_ARGUMENT_CONDITION);
-        _registry.registerFromExtensions(VALUE_CONVERTERS_EXTENSION);
-    }
-
-    private static class CustomPsiClassConverter extends PsiClassConverter {
-
+  private static final Condition<Pair<PsiType, GenericDomValue>> CLASS_NAME_ARGUMENT_CONDITION =
+      new Condition<Pair<PsiType, GenericDomValue>>() {
         @Override
-        protected JavaClassReferenceProvider createClassReferenceProvider(GenericDomValue<PsiClass> domValue,
-                                                                          final ConvertContext context, ExtendClass extendClass) {
-            JavaClassReferenceProvider provider = new JavaClassReferenceProvider() {
-                @Nullable
-                @Override
-                public GlobalSearchScope getScope(Project project) {
-                    return CustomPsiClassConverter.this.getScope(context);
-                }
-            };
+        public boolean value(Pair<PsiType, GenericDomValue> pair) {
+          if (pair.getSecond() instanceof WorkflowValue) {
+            WorkflowValue value = (WorkflowValue) pair.getSecond();
+            return "arg".equals(value.getXmlTag().getName())
+                && "class.name".equals(value.getName().getStringValue());
+          }
 
-            PsiClassRestrictable parent = DomUtil.getParentOfType(domValue, PsiClassRestrictable.class, true);
-            if (parent != null) {
-                provider.setOption(JavaClassReferenceProvider.EXTEND_CLASS_NAMES,
-                        new String[]{parent.getBasePsiClassName()});
-            }
-            provider.setOption(JavaClassReferenceProvider.INSTANTIATABLE, Boolean.TRUE);
-            provider.setOption(JavaClassReferenceProvider.CONCRETE, Boolean.TRUE);
-            provider.setOption(JavaClassReferenceProvider.NOT_INTERFACE, Boolean.TRUE);
-            provider.setOption(JavaClassReferenceProvider.NOT_ENUM, Boolean.TRUE);
-            provider.setOption(JavaClassReferenceProvider.JVM_FORMAT, Boolean.TRUE);
-            provider.setSoft(true);
-
-            return provider;
+          return false;
         }
+      };
 
+  private GenericDomValueConvertersRegistry _registry;
+
+  public WorkflowValueConverterRegistry() {
+    _registry = new GenericDomValueConvertersRegistry();
+
+    initConverters();
+  }
+
+  public static WorkflowValueConverterRegistry getInstance() {
+    return ServiceManager.getService(WorkflowValueConverterRegistry.class);
+  }
+
+  public Converter<?> getConverter(GenericDomValue domValue) {
+    return _registry.getConverter(domValue, null);
+  }
+
+  private void initConverters() {
+    _registry.registerConverter(new CustomPsiClassConverter(), CLASS_NAME_ARGUMENT_CONDITION);
+    for (GenericDomValueConvertersRegistry.Provider provider : VALUE_CONVERTERS_EXTENSION.getExtensionList()) {
+      _registry.registerConverter(provider.getConverter(), provider.getCondition());
     }
+  }
+
+  private static class CustomPsiClassConverter extends PsiClassConverter {
+
+    @Override
+    protected JavaClassReferenceProvider createClassReferenceProvider(GenericDomValue<PsiClass> domValue,
+                                                                      final ConvertContext context, ExtendClass extendClass) {
+      JavaClassReferenceProvider provider = new JavaClassReferenceProvider() {
+        @Nullable
+        @Override
+        public GlobalSearchScope getScope(Project project) {
+          return CustomPsiClassConverter.this.getScope(context);
+        }
+      };
+
+      PsiClassRestrictable parent = DomUtil.getParentOfType(domValue, PsiClassRestrictable.class, true);
+      if (parent != null) {
+        provider.setOption(JavaClassReferenceProvider.EXTEND_CLASS_NAMES,
+            new String[]{parent.getBasePsiClassName()});
+      }
+      provider.setOption(JavaClassReferenceProvider.INSTANTIATABLE, Boolean.TRUE);
+      provider.setOption(JavaClassReferenceProvider.CONCRETE, Boolean.TRUE);
+      provider.setOption(JavaClassReferenceProvider.NOT_INTERFACE, Boolean.TRUE);
+      provider.setOption(JavaClassReferenceProvider.NOT_ENUM, Boolean.TRUE);
+      provider.setOption(JavaClassReferenceProvider.JVM_FORMAT, Boolean.TRUE);
+      provider.setSoft(true);
+
+      return provider;
+    }
+
+  }
 
 }
