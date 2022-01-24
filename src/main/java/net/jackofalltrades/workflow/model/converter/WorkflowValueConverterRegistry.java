@@ -1,5 +1,7 @@
 package net.jackofalltrades.workflow.model.converter;
 
+import java.util.List;
+
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.extensions.ExtensionPointName;
 import com.intellij.openapi.project.Project;
@@ -56,7 +58,7 @@ public class WorkflowValueConverterRegistry {
     return ServiceManager.getService(WorkflowValueConverterRegistry.class);
   }
 
-  public Converter<?> getConverter(GenericDomValue domValue) {
+  public Converter<?> getConverter(GenericDomValue<?> domValue) {
     return _registry.getConverter(domValue, null);
   }
 
@@ -82,8 +84,8 @@ public class WorkflowValueConverterRegistry {
 
       PsiClassRestrictable parent = DomUtil.getParentOfType(domValue, PsiClassRestrictable.class, true);
       if (parent != null) {
-        provider.setOption(JavaClassReferenceProvider.EXTEND_CLASS_NAMES,
-            new String[]{parent.getBasePsiClassName()});
+        provider.setOption(JavaClassReferenceProvider.SUPER_CLASSES,
+            List.of(parent.getBasePsiClassName()));
       }
       provider.setOption(JavaClassReferenceProvider.INSTANTIATABLE, Boolean.TRUE);
       provider.setOption(JavaClassReferenceProvider.CONCRETE, Boolean.TRUE);
