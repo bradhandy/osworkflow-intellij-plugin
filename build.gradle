@@ -1,15 +1,10 @@
 plugins {
-    id 'org.jetbrains.intellij' version '0.7.2'
+    id "java"
+    id "org.jetbrains.intellij" version "1.8.1"
 }
 
-group 'net.jackofalltrades'
-version pluginVersion
-
-apply plugin: 'java'
-apply plugin: 'org.jetbrains.intellij'
-
-sourceCompatibility = javaVersion
-targetCompatibility = javaVersion
+group = "net.jackofalltrades"
+version = pluginVersion
 
 repositories {
     mavenCentral()
@@ -20,20 +15,24 @@ dependencies {
 }
 
 intellij {
-    version intellijVersion
-    type intellijType
-    pluginName 'OS Workflow Support'
+    version = intellijVersion
+    type = intellijType
+    pluginName = "OS Workflow Support"
     plugins = [
-            'java',
-            'Spring',
-            'java-i18n',  // java-i18n is required by the Spring plugin.  not used directly by the plugin.
-            'properties'  // properties is required by the java-i18n plugin.  not used directly by the plugin.
+        'java',
+        'Spring',
+        'java-i18n',  // java-i18n is required by the Spring plugin
+        'properties'  // properties is required by the java-i18n plugin
     ]
+}
+
+tasks {
     patchPluginXml {
-        version pluginVersion
-        sinceBuild earliestSupportedVersion
+        version = pluginVersion
+        sinceBuild = earliestSupportedVersion
     }
+
     buildPlugin {
-        baseName 'OSWorkflow'
+        archiveBaseName = "OSWorkflow"
     }
 }

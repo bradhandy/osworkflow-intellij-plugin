@@ -14,6 +14,10 @@
   <change-notes>
     <![CDATA[
         <ul>
+            <li> Version 3.9 </li>
+            <ul>
+                <li> Support for Intellij 2022.2 </li>
+            </ul>
             <li> Version 3.8 </li>
             <ul>
                 <li> Support for Intellij 2021.1 </li>
