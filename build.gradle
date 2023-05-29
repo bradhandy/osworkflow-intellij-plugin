@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    testImplementation group: 'junit', name: 'junit', version: '4.13.1'
+    testImplementation group: 'junit', name: 'junit', version: '4.13.2'
 }
 
 intellij {
@@ -24,6 +24,8 @@ intellij {
         'java-i18n',  // java-i18n is required by the Spring plugin
         'properties'  // properties is required by the java-i18n plugin
     ]
+
+    instrumentCode = false
 }
 
 tasks {

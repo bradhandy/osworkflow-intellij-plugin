@@ -2,6 +2,7 @@ package net.jackofalltrades.workflow.model.converter;
 
 import java.util.List;
 
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.extensions.ExtensionPointName;
 import com.intellij.openapi.project.Project;
@@ -55,7 +56,7 @@ public class WorkflowValueConverterRegistry {
   }
 
   public static WorkflowValueConverterRegistry getInstance() {
-    return ServiceManager.getService(WorkflowValueConverterRegistry.class);
+    return ApplicationManager.getApplication().getService(WorkflowValueConverterRegistry.class);
   }
 
   public Converter<?> getConverter(GenericDomValue<?> domValue) {
